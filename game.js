@@ -13,7 +13,7 @@ let level = 1;
 let exit = { x: 750, y: 550 };
 let timer = 0;
 let scores = [0, 0, 0, 0];
-,
+
 // Player class
 class Player {
     constructor(x, y, color, controls) {
