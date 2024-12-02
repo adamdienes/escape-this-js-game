@@ -4,21 +4,53 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Multiplayer Game</title>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="css/style.css" />
         <link
             href="https://fonts.googleapis.com/css?family=Poppins"
             rel="stylesheet"
         />
     </head>
     <body>
-        <h1>Multiplayer 2D Game</h1>
-        <div id="scoreBoard">
-            <div id="player1Score">Player 1: 0</div>
-            <div id="player2Score">Player 2: 0</div>
-            <div id="player3Score">Player 3: 0</div>
-            <div id="player4Score">Player 4: 0</div>
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen">
+            <div id="gameTitle">Escape this</div>
+            <div id="gameInstructions">
+                <p>
+                    Select the number of players to start the game. You have to
+                    be the fastest who escaped from the maze on each level.
+                </p>
+                <p>Control: W-A-S-D / Arrow Keys / I-J-K-L / 8-4-5-6</p>
+            </div>
+            <div id="playerSelection">
+                <button class="playerSelectButton" data-players="2">
+                    2 Players
+                </button>
+                <button class="playerSelectButton" data-players="3">
+                    3 Players
+                </button>
+                <button class="playerSelectButton" data-players="4">
+                    4 Players
+                </button>
+            </div>
         </div>
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <script src="game.js"></script>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" style="display: none">
+            <div id="clock">Time passed</div>
+            <div id="scoreBoard">
+                <div id="player1Score">Player 1: 0</div>
+                <div id="player2Score">Player 2: 0</div>
+                <div id="player3Score" style="display: none">Player 3: 0</div>
+                <div id="player4Score" style="display: none">Player 4: 0</div>
+            </div>
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+        </div>
+
+        <!-- JS Files -->
+        <script src="js/player.js"></script>
+        <script src="js/wall.js"></script>
+        <script src="js/input.js"></script>
+        <script src="js/level.js"></script>
+        <script src="js/game.js"></script>
     </body>
 </html>
