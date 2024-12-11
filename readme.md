@@ -48,6 +48,12 @@
 ## Future Improvement Possibilities
 
 -   **GamePad Support**: Add support for gamepads, allowing players to use controllers for a better experience.
+-   **Bonus appears on map**: A bonus gem appears on the map which provides a temporary boost for the player's speed.
+-   **Malus appears on map**: A malus appears on the map which block the player movement for a random period (0.2 - 1 sec) of time.
+-   \*_Fans on corridors_: Fans speed up or slow down certain corridors.
+-   **Electrocuting wall**: Certain walls must not be touched, otherwise you'll be electrocuted and have to start all over again.
+-   **Moving exit**
+-   **Moving walls**: vertically and horizontally
 
 ## Github pages connection
 

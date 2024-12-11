@@ -8,8 +8,8 @@ let isMuted = false;
 muteButton.addEventListener("click", () => {
     isMuted = !isMuted;
     muteIcon.src = isMuted
-        ? "../assets/images/unmute.png"
-        : "../assets/images/mute.png";
+        ? "assets/images/unmute.png"
+        : "assets/images/mute.png";
 
     backgroundMusic.muted = isMuted;
 });

@@ -287,5 +287,28 @@ function updateClock() {
 }
 
 window.addEventListener("load", () => {
+    checkScreenSize();
     loadLevels();
 });
+
+// Check screen size every time the window is resized
+window.addEventListener("resize", checkScreenSize);
+
+function checkScreenSize() {
+    const minWidth = 980;
+    const minHeight = 750;
+
+    // Check if the screen dimensions are smaller than the required size
+    if (window.innerWidth < minWidth || window.innerHeight < minHeight) {
+        Swal.fire({
+            title: "Screen Size Too Small",
+            text: "Your screen is not big enough for this game. Please use a desktop with a keyboard.",
+            icon: "warning",
+            confirmButtonText: "Got it",
+            confirmButtonColor: "#1E3229",
+            footer: "Minimum screen size: 980x750",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        });
+    }
+}
