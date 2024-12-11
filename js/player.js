@@ -1,9 +1,9 @@
 class Player {
-    constructor(x, y, color, controls) {
+    constructor(x, y, gameSpeed, color, controls) {
         this.x = x;
         this.y = y;
         this.color = color;
-        this.speed = 3;
+        this.speed = gameSpeed;
         this.controls = controls;
         this.dx = 0;
         this.dy = 0;
@@ -44,7 +44,7 @@ class Player {
         // Exit collision
         const distToExit = Math.sqrt(
             (this.x + PLAYER_SIZE / 2 - exit.x) ** 2 +
-                (this.y + PLAYER_SIZE / 2 - exit.y) ** 2
+                (this.y + PLAYER_SIZE / 2 - exit.y) ** 2,
         );
         if (distToExit < EXIT_RADIUS) {
             this.reachedExit = true;
@@ -53,6 +53,37 @@ class Player {
             this.scorePlayer();
             exitReachedSound.play();
         }
+
+        this.checkPlayerCollisions();
+    }
+
+    checkPlayerCollisions() {
+        players.forEach((otherPlayer) => {
+            if (otherPlayer !== this && !otherPlayer.reachedExit) {
+                const overlapX = Math.abs(this.x - otherPlayer.x) < PLAYER_SIZE;
+                const overlapY = Math.abs(this.y - otherPlayer.y) < PLAYER_SIZE;
+
+                if (overlapX && overlapY) {
+                    // Calculate the difference between players' positions
+                    const diffX = this.x - otherPlayer.x;
+                    const diffY = this.y - otherPlayer.y;
+                    const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
+
+                    if (distance < PLAYER_SIZE) {
+                        // Normalize the vector and calculate the amount to push players away
+                        const pushDistance = PLAYER_SIZE - distance; // Distance needed to separate
+                        const pushX = (diffX / distance) * pushDistance * 0.5; // Apply push to both players
+                        const pushY = (diffY / distance) * pushDistance * 0.5;
+
+                        // Adjust player positions
+                        this.x += pushX;
+                        this.y += pushY;
+                        otherPlayer.x -= pushX;
+                        otherPlayer.y -= pushY;
+                    }
+                }
+            }
+        });
     }
 
     scorePlayer() {

@@ -12,9 +12,25 @@
         />
     </head>
     <body>
+        <!-- Fixed Controls Container -->
+        <div id="controlsContainer">
+            <button id="restartButton" class="controlButton" title="Restart">
+                <img src="assets/images/restart.png" alt="Restart" />
+            </button>
+            <button id="muteButton" class="controlButton" title="Mute/Unmute">
+                <img
+                    src="assets/images/mute.png"
+                    alt="Mute/Unmute"
+                    id="muteIcon"
+                />
+            </button>
+            <button id="nextLevelButton" class="controlButton" title="Next Level">
+                <img src="assets/images/right-arrow.svg" alt="Next Level" />
+        </div>
+
         <!-- Welcome Screen -->
         <div id="welcomeScreen">
-            <div id="gameTitle">Escape this</div>
+            <div id="gameTitle">Escape this<span class="dot">.</span></div>
             <div id="gameInstructions">
                 <p>
                     Select the number of players to start the game. You have to
@@ -23,6 +39,9 @@
                 <p>Control: W-A-S-D / Arrow Keys / I-J-K-L / 8-4-5-6</p>
             </div>
             <div id="playerSelection">
+                <button class="playerSelectButton" data-players="1">
+                    1 Player
+                </button>
                 <button class="playerSelectButton" data-players="2">
                     2 Players
                 </button>
@@ -33,25 +52,64 @@
                     4 Players
                 </button>
             </div>
+            <div id="gameSpeedSelection">
+                <label for="gameSpeed">Game Speed</label>
+                <input
+                    type="number"
+                    id="gameSpeed"
+                    name="gameSpeed"
+                    min="3"
+                    max="10"
+                    value="5"
+                />
+                <span>(1 is slow, 10 is fast)</span>
+            </div>
         </div>
 
         <!-- Game Screen -->
         <div id="gameScreen" style="display: none">
-            <div id="level">Level 1</div>
+            <div id="utilsContianer">
+                <span id="level" class="utilElement">&#9889; Level 1</span>
+                <span id="clock" class="utilElement">&#8987; 0:00</span>
+            </div>
             <div id="scoreBoard">
-                <div id="player1Score">Player 1: 0</div>
-                <div id="player2Score">Player 2: 0</div>
-                <div id="player3Score" style="display: none">Player 3: 0</div>
-                <div id="player4Score" style="display: none">Player 4: 0</div>
+                <div id="player1Score"></div>
+                <div id="player2Score"></div>
+                <div id="player3Score" style="display: none"></div>
+                <div id="player4Score" style="display: none"></div>
             </div>
             <canvas id="gameCanvas" width="800" height="600"></canvas>
         </div>
 
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="footer-content">
+                <a
+                    href="https://github.com/adamdienes/escape-this-js-game"
+                    target="_blank"
+                >
+                    <img
+                        src="assets/images/github.svg"
+                        alt="GitHub"
+                        class="icon"
+                    />
+                </a>
+
+                <span class="year">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script></span
+                >
+            </div>
+        </footer>
+
         <!-- JS Files -->
+        <script src="js/controls.js"></script>
         <script src="js/player.js"></script>
         <script src="js/wall.js"></script>
         <script src="js/input.js"></script>
-        <script src="js/level.js"></script>
         <script src="js/game.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </body>
 </html>
