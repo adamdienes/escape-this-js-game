@@ -29,6 +29,7 @@
 -   **Collision Detection**: Collisions between players and obstacles (such as walls) are detected, preventing movement through them.
 -   **Wall and Obstacle Interaction**: Walls are impassable, and players must navigate around them or find alternative paths.
 -   **Scoring System**: Points system where players earns points based on their performance (4-3-2-1 points for 1st to 4th place).
+-   **Level indicator**: The current level is displayed on the top part of the screen.
 
 ## Levels
 
@@ -45,6 +46,6 @@
 
 ## Github pages connection
 
-Continuous deployment is live to a Github Pages and the app is auto-updating relative to changes to the main branch. https://adamdienes.github.io/2d_multiplayer_game/
+Continuous deployment is live to a Github Pages and the app is auto-updating relative to changes to the main branch. https://adamdienes.github.io/escape-this-js-game/
 
 Made with ❤️ and JavaScript.

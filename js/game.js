@@ -6,7 +6,7 @@ const player2Score = document.getElementById("player2Score");
 const player3Score = document.getElementById("player3Score");
 const player4Score = document.getElementById("player4Score");
 
-const clock = document.getElementById("clock");
+const levelIndicator = document.getElementById("level");
 
 const TILE_SIZE = 50;
 const PLAYER_SIZE = 20;
@@ -22,6 +22,25 @@ let scores = [0, 0, 0, 0];
 
 let levelsData = [];
 let currentLevel = 1;
+
+// Audio elements
+const backgroundMusic = new Audio("assets/sounds/background-music.mp3");
+const exitReachedSound = new Audio("assets/sounds/exit-reached.mp3");
+const newLevelSound = new Audio("assets/sounds/new-level.mp3");
+
+backgroundMusic.loop = true;
+
+function playBackgroundMusic() {
+    backgroundMusic.play().catch((error) => {
+        console.error("Failed to play background music:", error);
+    });
+}
+
+// Wait for user interaction before playing the music
+document.addEventListener("click", function handleInteraction() {
+    playBackgroundMusic();
+    document.removeEventListener("click", handleInteraction);
+});
 
 document.querySelectorAll(".playerSelectButton").forEach((button) => {
     button.addEventListener("click", () => {
@@ -123,7 +142,13 @@ function draw() {
 }
 
 function nextLevel() {
+    if (currentLevel > 0) {
+        newLevelSound.play();
+    }
+
     currentLevel++;
+    levelIndicator.textContent = `Level ${currentLevel}`;
+
     resetLevel();
     createWalls();
     resetPlayers();
@@ -147,12 +172,10 @@ function resetLevel() {
 }
 
 async function loadLevels() {
-    // Fetch the levels data from levels.json
-    fetch("../assets/levels.json")
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
-
+    // Be aware for CORS policy
+    const response = await fetch("assets/levels.json").then((res) =>
+        res.json()
+    );
     levelsData = response.levels;
     createWalls();
 }
@@ -221,5 +244,3 @@ function init() {
 window.addEventListener("load", () => {
     loadLevels();
 });
-
-init();
