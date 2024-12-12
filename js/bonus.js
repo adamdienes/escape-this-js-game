@@ -7,7 +7,6 @@ class Bonus {
     }
 
     draw() {
-        // Create a gradient for the gem color
         let grad = ctx.createLinearGradient(
             this.x,
             this.y,
@@ -17,21 +16,16 @@ class Bonus {
         grad.addColorStop(0, "cyan");
         grad.addColorStop(0.5, "blue");
         grad.addColorStop(1, "purple");
-
-        // Set fill style as the gradient
         ctx.fillStyle = grad;
 
-        // Draw the gem shape (a simple polygonal design for a gem)
         ctx.beginPath();
-        ctx.moveTo(this.x + this.width / 2, this.y); // top center
-        ctx.lineTo(this.x + this.width, this.y + this.height / 2); // right center
-        ctx.lineTo(this.x + this.width / 2, this.y + this.height); // bottom center
-        ctx.lineTo(this.x, this.y + this.height / 2); // left center
+        ctx.moveTo(this.x + this.width / 2, this.y);
+        ctx.lineTo(this.x + this.width, this.y + this.height / 2);
+        ctx.lineTo(this.x + this.width / 2, this.y + this.height);
+        ctx.lineTo(this.x, this.y + this.height / 2);
         ctx.closePath();
-
         ctx.fill();
 
-        // Optionally, add a highlight to make it look shiny
         ctx.fillStyle = "white";
         ctx.beginPath();
         ctx.arc(

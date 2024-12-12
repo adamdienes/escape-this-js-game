@@ -29,6 +29,7 @@ class Player {
         this.checkExitCollisions();
         this.checkPlayerCollisions();
         this.checkMalusCollisions();
+        this.checkBonusCollisions();
     }
 
     checkBoundaryCollisions() {
@@ -107,6 +108,7 @@ class Player {
                 maluses.splice(index, 1);
 
                 if (!this.isEffected) {
+                    this.isEffected = true;
                     const originalSpeed = this.speed;
                     this.speed = Math.random() * (malusSpeedRange[1] - 1) + 1;
 
@@ -118,10 +120,44 @@ class Player {
                             " ms",
                     );
 
-                    this.isEffected = true;
                     setTimeout(() => {
                         this.speed = originalSpeed;
                     }, malusDuration);
+
+                    this.isEffected = false;
+                    console.log("Original speed restored: " + originalSpeed);
+                }
+            }
+        });
+    }
+
+    checkBonusCollisions() {
+        bonuses.forEach((bonusItem, index) => {
+            if (
+                this.x < bonusItem.x + bonusItem.width &&
+                this.x + PLAYER_SIZE > bonusItem.x &&
+                this.y < bonusItem.y + bonusItem.height &&
+                this.y + PLAYER_SIZE > bonusItem.y
+            ) {
+                bonusSound.play();
+                bonuses.splice(index, 1);
+
+                if (!this.isEffected) {
+                    const originalSpeed = this.speed;
+                    this.speed *= 1.5;
+
+                    console.log(
+                        "Bonus speed: " +
+                            this.speed +
+                            " for " +
+                            bonusDuration +
+                            " ms",
+                    );
+
+                    this.isEffected = true;
+                    setTimeout(() => {
+                        this.speed = originalSpeed;
+                    }, bonusDuration);
                     this.isEffected = false;
 
                     console.log("Original speed restored: " + originalSpeed);

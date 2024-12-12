@@ -10,7 +10,6 @@ class Malus {
         ctx.fillStyle = "brown";
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
-        // Draw spikes
         ctx.fillStyle = "gray";
         let spikeHeight = 10;
         for (let i = 0; i < 5; i++) {

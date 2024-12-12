@@ -1,4 +1,3 @@
-// Check screen size every time the window is resized
 window.addEventListener("resize", checkScreenSize);
 
 function checkScreenSize() {

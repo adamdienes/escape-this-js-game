@@ -46,6 +46,7 @@ const newLevelSound = new Audio("assets/sounds/new-level.mp3");
 const clockTickSound = new Audio("assets/sounds/clock-tick.mp3");
 const successSound = new Audio("assets/sounds/success.mp3");
 const malusSound = new Audio("assets/sounds/malus.mp3");
+const bonusSound = new Audio("assets/sounds/bonus.mp3");
 
 backgroundMusic.loop = true;
 
@@ -137,6 +138,7 @@ function update() {
     if (!gameStarted) return;
 
     players.forEach((player) => player.move());
+    walls.forEach((wall) => wall.update());
 
     if (players.every((player) => player.reachedExit)) {
         // All players have reached the exit, go to next level
@@ -211,7 +213,6 @@ function nextLevel() {
 
 // Reset players for the new level
 function resetPlayers() {
-    // Define base positions for players
     const basePositions = [
         { x: 10, y: 10 },
         { x: 40, y: 10 },
@@ -254,10 +255,8 @@ async function loadLevels() {
 
 function createWalls() {
     walls = [];
-    // Get the walls for the current level
     const levelData = levelsData.find((level) => level.level === currentLevel);
 
-    // Create walls based on the level data
     if (levelData) {
         levelData.walls.forEach((wallData) => {
             walls.push(
@@ -266,6 +265,10 @@ function createWalls() {
                     wallData.y,
                     wallData.width,
                     wallData.height,
+                    wallData.moving || false,
+                    wallData.direction || null,
+                    wallData.speed || 0,
+                    wallData.range || 0,
                 ),
             );
         });
@@ -322,13 +325,12 @@ function gameLoop() {
 }
 
 function startClock() {
-    // Ensure startClock is only called once
     if (!clockStarted) {
         timer = 0;
-        clockStarted = true; // Set flag to true
+        clockStarted = true;
         setInterval(() => {
             updateClock();
-        }, 1000); // Update every second
+        }, 1000);
     }
 }
 
