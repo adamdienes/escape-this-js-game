@@ -1,4 +1,3 @@
-// Mute/Unmute functionality
 const muteButton = document.getElementById("muteButton");
 const muteIcon = document.getElementById("muteIcon");
 const nextLevelButton = document.getElementById("nextLevelButton");

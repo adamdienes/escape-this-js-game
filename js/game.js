@@ -23,8 +23,13 @@ let gameStarted = false;
 let countdown = 6;
 let players = [];
 let walls = [];
+let maluses = [];
+let bonuses = [];
 let exit = { x: 750, y: 550 };
 let scores = [0, 0, 0, 0];
+let malusSpeedRange = [0, 0];
+let malusDuration = 0;
+let bonusDuration = 0;
 
 let levelsData = [];
 let currentLevel = 1;
@@ -39,6 +44,8 @@ const backgroundMusic = new Audio("assets/sounds/background-music.mp3");
 const exitReachedSound = new Audio("assets/sounds/exit-reached.mp3");
 const newLevelSound = new Audio("assets/sounds/new-level.mp3");
 const clockTickSound = new Audio("assets/sounds/clock-tick.mp3");
+const successSound = new Audio("assets/sounds/success.mp3");
+const malusSound = new Audio("assets/sounds/malus.mp3");
 
 backgroundMusic.loop = true;
 
@@ -73,6 +80,8 @@ function startGame(numberOfPlayers) {
 
     createPlayers(numberOfPlayers);
     createWalls();
+    createMaluses();
+    createBonuses();
     handleInput();
     gameLoop();
 }
@@ -141,6 +150,9 @@ function draw() {
 
     players.forEach((player) => player.draw());
     walls.forEach((wall) => wall.draw());
+    maluses.forEach((malus) => malus.draw());
+    bonuses.forEach((bonus) => bonus.draw());
+
     drawExit();
 
     if (!gameStarted && countdown > 0) {
@@ -161,15 +173,16 @@ function draw() {
 }
 
 function nextLevel() {
-    if (currentLevel > 0) {
+    const levelCount = levelsData.length;
+    if (currentLevel > 0 && currentLevel < levelCount) {
         newLevelSound.play();
     }
 
     currentLevel++;
-    const levelCount = levelsData.length;
 
     if (currentLevel > levelCount) {
         currentLevel = 1;
+        successSound.play();
 
         // Using SweetAlert for a nicer pop-up
         Swal.fire({
@@ -191,14 +204,26 @@ function nextLevel() {
 
     resetLevel();
     createWalls();
+    createMaluses();
+    createBonuses();
     resetPlayers();
 }
 
 // Reset players for the new level
 function resetPlayers() {
-    players.forEach((player) => {
-        player.x = 10;
-        player.y = 10;
+    // Define base positions for players
+    const basePositions = [
+        { x: 10, y: 10 },
+        { x: 40, y: 10 },
+        { x: 10, y: 40 },
+        { x: 40, y: 40 },
+    ];
+
+    players.forEach((player, index) => {
+        const position = basePositions[index] || { x: 0, y: 0 };
+
+        player.x = position.x;
+        player.y = position.y;
         player.reachedExit = false;
     });
 }
@@ -223,6 +248,8 @@ async function loadLevels() {
     levelIndicator.innerHTML = `&#9889; Level ${currentLevel} / ${levelCount}`;
 
     createWalls();
+    createMaluses();
+    createMaluses();
 }
 
 function createWalls() {
@@ -241,6 +268,33 @@ function createWalls() {
                     wallData.height,
                 ),
             );
+        });
+    }
+}
+
+function createMaluses() {
+    maluses = [];
+    const levelData = levelsData.find((level) => level.level === currentLevel);
+
+    if (levelData && levelData.maluses) {
+        malusSpeedRange = levelData.malusSpeedRange;
+        malusDuration = levelData.malusDuration;
+
+        levelData.maluses.forEach((malusData) => {
+            maluses.push(new Malus(malusData.x, malusData.y, malusData.size));
+        });
+    }
+}
+
+function createBonuses() {
+    bonuses = [];
+    const levelData = levelsData.find((level) => level.level === currentLevel);
+
+    if (levelData && levelData.bonuses) {
+        bonusDuration = levelData.bonusDuration;
+
+        levelData.bonuses.forEach((bonusData) => {
+            bonuses.push(new Bonus(bonusData.x, bonusData.y, bonusData.size));
         });
     }
 }
@@ -290,25 +344,3 @@ window.addEventListener("load", () => {
     checkScreenSize();
     loadLevels();
 });
-
-// Check screen size every time the window is resized
-window.addEventListener("resize", checkScreenSize);
-
-function checkScreenSize() {
-    const minWidth = 980;
-    const minHeight = 750;
-
-    // Check if the screen dimensions are smaller than the required size
-    if (window.innerWidth < minWidth || window.innerHeight < minHeight) {
-        Swal.fire({
-            title: "Screen Size Too Small",
-            text: "Your screen is not big enough for this game. Please use a desktop with a keyboard.",
-            icon: "warning",
-            confirmButtonText: "Got it",
-            confirmButtonColor: "#1E3229",
-            footer: "Minimum screen size: 980x750",
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-        });
-    }
-}

@@ -1,5 +1,9 @@
 class Player {
     constructor(x, y, gameSpeed, color, controls) {
+        // Limit game speed to 1 - 10
+        if (gameSpeed < 1) gameSpeed = 1;
+        if (gameSpeed > 10) gameSpeed = 10;
+
         this.x = x;
         this.y = y;
         this.color = color;
@@ -8,6 +12,7 @@ class Player {
         this.dx = 0;
         this.dy = 0;
         this.reachedExit = false;
+        this.isEffected = false;
     }
 
     move() {
@@ -19,15 +24,23 @@ class Player {
     }
 
     checkCollisions() {
-        // Boundary collisions
+        this.checkBoundaryCollisions();
+        this.checkWallCollisions();
+        this.checkExitCollisions();
+        this.checkPlayerCollisions();
+        this.checkMalusCollisions();
+    }
+
+    checkBoundaryCollisions() {
         if (this.x < 0) this.x = 0;
         if (this.x + PLAYER_SIZE > canvas.width)
             this.x = canvas.width - PLAYER_SIZE;
         if (this.y < 0) this.y = 0;
         if (this.y + PLAYER_SIZE > canvas.height)
             this.y = canvas.height - PLAYER_SIZE;
+    }
 
-        // Wall collisions
+    checkWallCollisions() {
         walls.forEach((wall) => {
             if (
                 this.x < wall.x + wall.width &&
@@ -35,13 +48,13 @@ class Player {
                 this.y < wall.y + wall.height &&
                 this.y + PLAYER_SIZE > wall.y
             ) {
-                // Simple collision resolution (push back)
                 this.x -= this.dx * this.speed;
                 this.y -= this.dy * this.speed;
             }
         });
+    }
 
-        // Exit collision
+    checkExitCollisions() {
         const distToExit = Math.sqrt(
             (this.x + PLAYER_SIZE / 2 - exit.x) ** 2 +
                 (this.y + PLAYER_SIZE / 2 - exit.y) ** 2,
@@ -53,8 +66,6 @@ class Player {
             this.scorePlayer();
             exitReachedSound.play();
         }
-
-        this.checkPlayerCollisions();
     }
 
     checkPlayerCollisions() {
@@ -64,15 +75,13 @@ class Player {
                 const overlapY = Math.abs(this.y - otherPlayer.y) < PLAYER_SIZE;
 
                 if (overlapX && overlapY) {
-                    // Calculate the difference between players' positions
                     const diffX = this.x - otherPlayer.x;
                     const diffY = this.y - otherPlayer.y;
                     const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
 
                     if (distance < PLAYER_SIZE) {
-                        // Normalize the vector and calculate the amount to push players away
-                        const pushDistance = PLAYER_SIZE - distance; // Distance needed to separate
-                        const pushX = (diffX / distance) * pushDistance * 0.5; // Apply push to both players
+                        const pushDistance = PLAYER_SIZE - distance;
+                        const pushX = (diffX / distance) * pushDistance * 0.5;
                         const pushY = (diffY / distance) * pushDistance * 0.5;
 
                         // Adjust player positions
@@ -81,6 +90,41 @@ class Player {
                         otherPlayer.x -= pushX;
                         otherPlayer.y -= pushY;
                     }
+                }
+            }
+        });
+    }
+
+    checkMalusCollisions() {
+        maluses.forEach((malusItem, index) => {
+            if (
+                this.x < malusItem.x + malusItem.width &&
+                this.x + PLAYER_SIZE > malusItem.x &&
+                this.y < malusItem.y + malusItem.height &&
+                this.y + PLAYER_SIZE > malusItem.y
+            ) {
+                malusSound.play();
+                maluses.splice(index, 1);
+
+                if (!this.isEffected) {
+                    const originalSpeed = this.speed;
+                    this.speed = Math.random() * (malusSpeedRange[1] - 1) + 1;
+
+                    console.log(
+                        "Malus speed: " +
+                            this.speed +
+                            " for " +
+                            malusDuration +
+                            " ms",
+                    );
+
+                    this.isEffected = true;
+                    setTimeout(() => {
+                        this.speed = originalSpeed;
+                    }, malusDuration);
+                    this.isEffected = false;
+
+                    console.log("Original speed restored: " + originalSpeed);
                 }
             }
         });

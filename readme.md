@@ -37,10 +37,12 @@
 -   **Level indicator**: The current level is displayed on the top part of the screen.
 -   **Music and sound effects**: There is (mutable) background music and an 'exit reached' and 'new level' sound effects to make the game more engaging.
 
+-   **Handle window size**: The game will check your browser width and height whether you can play this game on that particular device or not. It will notice you in a pop-up.
+
 ## Levels
 
--   **Level 1**: A simple demo level with no walls or obstacles, allowing players to learn the controls.
--   **Levels 2-4**: Vertical walls appear, introducing corridors that require careful navigation. Some paths are blocked by dead ends, making the path to the exit more challenging.
+-   **Level 1**: A simple demo level with minimum amount of walls or obstacles, allowing players to learn the controls.
+-   **Levels 2-4**: Vertical and horizontal walls appear, introducing corridors that require careful navigation. Some paths are blocked by dead ends, making the path to the exit more challenging.
 -   **Levels 4-8**: Walls move vertically or horizontally, adding a dynamic element to the level design. Players must adapt their strategy as walls change position.
 -   **Levels 8-15**: _TODO_ (Add more complexity with additional obstacles, moving platforms, or more challenging maze-like layouts).
 -   **Levels 15-20**: _TODO_ (Introduce new mechanics or environments, such as time-limited challenges or multi-exit levels).
@@ -49,7 +51,7 @@
 
 -   **GamePad Support**: Add support for gamepads, allowing players to use controllers for a better experience.
 -   **Bonus appears on map**: A bonus gem appears on the map which provides a temporary boost for the player's speed.
--   **Malus appears on map**: A malus appears on the map which block the player movement for a random period (0.2 - 1 sec) of time.
+-   **Malus appears on map**: A malus appears on the map which slows down the player movement speed for a random period (0.2 - 1 sec) of time.
 -   \*_Fans on corridors_: Fans speed up or slow down certain corridors.
 -   **Electrocuting wall**: Certain walls must not be touched, otherwise you'll be electrocuted and have to start all over again.
 -   **Moving exit**

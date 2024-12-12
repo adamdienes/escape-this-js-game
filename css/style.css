@@ -4,7 +4,6 @@
        font-family: 'Poppins', sans-serif;
    }
 
-
    /* Fixed Controls Container */
    #controlsContainer {
        position: fixed;
@@ -13,7 +12,7 @@
        display: flex;
        flex-direction: column;
        gap: 10px;
-       z-index: 1000;
+       z-index: 100;
    }
 
    .controlButton {
