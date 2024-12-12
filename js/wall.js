@@ -8,6 +8,7 @@ class Wall {
         direction = null,
         speed = 0,
         range = 0,
+        color = "black",
     ) {
         this.x = x;
         this.y = y;
@@ -17,6 +18,7 @@ class Wall {
         this.direction = direction;
         this.speed = speed;
         this.range = range;
+        this.color = color;
 
         this.startPosition = { x: x, y: y };
         this.currentDistance = 0;
@@ -47,7 +49,7 @@ class Wall {
     }
 
     draw() {
-        ctx.fillStyle = "black";
+        ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 

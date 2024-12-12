@@ -26,6 +26,7 @@ let walls = [];
 let maluses = [];
 let bonuses = [];
 let exit = { x: 750, y: 550 };
+let exit_secondary = { x: 750, y: 50 };
 let scores = [0, 0, 0, 0];
 let malusSpeedRange = [0, 0];
 let malusDuration = 0;
@@ -69,6 +70,7 @@ document.querySelectorAll(".playerSelectButton").forEach((button) => {
     });
 });
 
+// Start game
 function startGame(numberOfPlayers) {
     document.getElementById("welcomeScreen").style.display = "none";
     document.getElementById("gameScreen").style.display = "block";
@@ -123,10 +125,10 @@ function createPlayers(numberOfPlayers) {
 }
 
 // Draw the exit
-function drawExit() {
+function drawExit(position) {
     ctx.fillStyle = EXIT_COLOR;
     ctx.beginPath();
-    ctx.arc(exit.x, exit.y, EXIT_RADIUS, 0, Math.PI * 2);
+    ctx.arc(position.x, position.y, EXIT_RADIUS, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fill();
     ctx.strokeStyle = "black";
@@ -155,7 +157,12 @@ function draw() {
     maluses.forEach((malus) => malus.draw());
     bonuses.forEach((bonus) => bonus.draw());
 
-    drawExit();
+    drawExit(exit);
+
+    // Secondary exit is only available from level 13
+    if (currentLevel >= 13) {
+        drawExit(exit_secondary);
+    }
 
     if (!gameStarted && countdown > 0) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
@@ -174,12 +181,12 @@ function draw() {
     });
 }
 
+// Handle next level
 function nextLevel() {
     const levelCount = levelsData.length;
     if (currentLevel > 0 && currentLevel < levelCount) {
         newLevelSound.play();
     }
-
     currentLevel++;
 
     if (currentLevel > levelCount) {
@@ -189,7 +196,7 @@ function nextLevel() {
         // Using SweetAlert for a nicer pop-up
         Swal.fire({
             title: "🎉<br>Congratulations!",
-            html: `<b>You have completed all levels.</b><br><br>Your scores:${scores
+            html: `<b>You have completed all ${levelCount} levels.</b><br><br>Your scores:${scores
                 .map(
                     (score, index) =>
                         `<br>Player ${index + 1}: ${score} points`,
@@ -231,14 +238,15 @@ function resetPlayers() {
 
 // Reset level conditions
 function resetLevel() {
-    exit = { x: 750, y: 550 };
     countdown = 6;
     gameStarted = false;
     timer = 0;
+    resetPlayers();
 }
 
+// Load levels from JSON file
+// Be aware for CORS policy
 async function loadLevels() {
-    // Be aware for CORS policy
     const response = await fetch("assets/levels.json").then((res) =>
         res.json(),
     );
@@ -253,6 +261,7 @@ async function loadLevels() {
     createMaluses();
 }
 
+// Create walls for the current level
 function createWalls() {
     walls = [];
     const levelData = levelsData.find((level) => level.level === currentLevel);
@@ -269,12 +278,14 @@ function createWalls() {
                     wallData.direction || null,
                     wallData.speed || 0,
                     wallData.range || 0,
+                    wallData.color || "black",
                 ),
             );
         });
     }
 }
 
+// Create maluse traps for the current level
 function createMaluses() {
     maluses = [];
     const levelData = levelsData.find((level) => level.level === currentLevel);
@@ -289,6 +300,7 @@ function createMaluses() {
     }
 }
 
+// Create bonus gems for the current level
 function createBonuses() {
     bonuses = [];
     const levelData = levelsData.find((level) => level.level === currentLevel);

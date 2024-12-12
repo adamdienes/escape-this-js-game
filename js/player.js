@@ -56,16 +56,26 @@ class Player {
     }
 
     checkExitCollisions() {
-        const distToExit = Math.sqrt(
-            (this.x + PLAYER_SIZE / 2 - exit.x) ** 2 +
-                (this.y + PLAYER_SIZE / 2 - exit.y) ** 2,
-        );
-        if (distToExit < EXIT_RADIUS) {
-            this.reachedExit = true;
-            this.dx = 0;
-            this.dy = 0;
-            this.scorePlayer();
-            exitReachedSound.play();
+        const checkCollisionWithExit = (exitPoint) => {
+            const distToExit = Math.sqrt(
+                (this.x + PLAYER_SIZE / 2 - exitPoint.x) ** 2 +
+                    (this.y + PLAYER_SIZE / 2 - exitPoint.y) ** 2,
+            );
+
+            if (distToExit < EXIT_RADIUS) {
+                this.reachedExit = true;
+                this.dx = 0;
+                this.dy = 0;
+                this.scorePlayer();
+                exitReachedSound.play();
+            }
+        };
+
+        checkCollisionWithExit(exit);
+
+        // Secondary exit is only available from level 13
+        if (currentLevel >= 13) {
+            checkCollisionWithExit(exit_secondary);
         }
     }
 

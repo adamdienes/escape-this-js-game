@@ -25,8 +25,8 @@ Before starting the game, make sure you meet the following requirements:
     - 🟨 Yellow Player 4: Numpad arrow keys (alternative configuration: 8, 4, 5, 6)
 3. **Objective**: Guide all players to the exit represented by a blue circle with a black border in the bottom-right corner.
 4. **Challenges: Malus and Bonus Items:** Some maps include special items that affect gameplay:
-    - Malus trap: Slows the affected player for a short duration. Be strategic about avoiding these!
-    - Bonus gem: Boosts the player's speed temporarily. Use it wisely to gain an advantage.
+    - ⛓️ Malus trap: Slows the affected player for a short duration. Be strategic about avoiding these!
+    - 💎 Bonus gem: Boosts the player's speed temporarily. Use it wisely to gain an advantage.
 5. **Level Progression**: Once all players reach the exit, the game will load the next level. If players fail to reach the exit, they can try again.
 
 **💡 Tips for Success**:
@@ -65,18 +65,19 @@ Good luck, and enjoy navigating the maze!⚡
 
 -   **Level 1**: A simple demo level with a minimum amount of walls or obstacles, allowing players to learn the controls.
 -   **Levels 2-4**: Vertical and horizontal walls appear, introducing corridors that require careful navigation. Some paths are blocked by dead ends, making the path to the exit is more challenging.
--   **Levels 4-8**: Walls move vertically or horizontally in a given range and speed. Players must adapt their strategy as walls continuously change position.
--   **Levels 8-15**: Add more complexity with additional elements. Malus trap and bonus gems are present on some levels. Be careful!
--   **Levels 15-20**: All previously mentioned obstacles and additional elements are present, and more than one exit is possible. Choose wisely!
+-   **Levels 5-8**: Walls move vertically or horizontally in a given range and speed. Players must adapt their strategy as walls continuously change position.
+-   **Levels 9-12**: Add more complexity with additional elements. Malus trap and bonus gems are present on some levels. Be careful!
+-   **Levels 13-15**: All previously mentioned obstacles and additional elements are present, and more than one exit is possible. Choose wisely!
 
 ## ⚙️ Future Improvement Possibilities
 
 -   **GamePad Support**: Add support for gamepads, allowing players to use controllers for a better experience.
 -   **Fans on corridors**: Fans speed up or slow down certain corridors.
 -   **Electrocuting wall**: Certain walls must not be touched, otherwise you'll be electrocuted and have to start all over again.
+-   **Extra level**: Create additional levels in JSON with all the available utilities.
 
 ## 🎉 GitHub page connection
 
 Continuous deployment is present in GitHub Pages and the project is auto-updating relative to changes to the main branch. Live demo: https://adamdienes.github.io/escape-this-js-game/
 
-    Made with ❤️ and JavaScript.
+    Made with ❤️ and JavaScript by Adam DIENES / Copyright © 2024

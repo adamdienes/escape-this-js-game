@@ -128,7 +128,6 @@
    }
 
    /* Game Screen Styles */
-
    canvas {
        display: block;
        margin: 0 auto;
@@ -148,6 +147,7 @@
        font-size: 1em;
    }
 
+   /* Score Board Styles */
    #scoreBoard {
        display: grid;
        grid-template-columns: repeat(4, 1fr);
@@ -197,4 +197,14 @@
    .footer-content .icon {
        width: 14px;
        height: 14px;
+   }
+
+   @media only screen and (max-width: 980px) {
+
+       /* Hide game for small screen devices */
+       #welcomeScreen,
+       #controlsContainer,
+       #footer {
+           display: none;
+       }
    }
